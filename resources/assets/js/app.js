@@ -289,6 +289,8 @@ $(function() {
         // Only validate going forward. If current group is invalid, do not go further
         if (next > current) {
             var url = '/setup/step' + current;
+            var currentUrl = window.location.href.replace(/step\d/, '');
+            var url = currentUrl + '/step' + current;
             $.post(url, $form.serializeObject())
                 .done(function(response) {
                     goToStep(current, next);
@@ -370,9 +372,9 @@ $(function() {
         $.ajax({
             async: true,
             dataType: 'json',
-            url: '/dashboard/api/system/version',
+            url: '/api/v1/version',
         }).done(function (result) {
-            if (result.is_latest == false) {
+            if (result.meta.on_latest === false) {
                 $('#update-alert').removeClass('hidden');
             }
         });
